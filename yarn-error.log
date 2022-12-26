@@ -1,0 +1,40 @@
+Arguments: 
+  /Users/pederfosse/.nvm/versions/node/v16.14.2/bin/node /opt/homebrew/bin/yarn jest
+
+PATH: 
+  /Users/pederfosse/.rbenv/shims:/Users/pederfosse/.nvm/versions/node/v16.14.2/bin:/Users/pederfosse/google-cloud-sdk/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Users/pederfosse/.rvm/bin:/Users/pederfosse/code/scripts
+
+Yarn version: 
+  1.22.18
+
+Node version: 
+  16.14.2
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  SyntaxError: /Users/pederfosse/code/adventOfCode22/package.json: Unexpected token } in JSON at position 162
+      at JSON.parse (<anonymous>)
+      at /opt/homebrew/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/opt/homebrew/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /opt/homebrew/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "dependencies": {
+      "@types/node": "^18.7.13",
+      "axios": "^1.2.0"
+    },
+      "@types/jest": "^29.0.3",
+      "jest": "^29.3.1",
+      "ts-jest": "^29.0.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
