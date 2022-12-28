@@ -1,15 +1,19 @@
-import { RopeEnd } from './rope-end';
+import { Knot } from './rope-end';
 import { Direction } from './types';
 
 export class Rope {
-  head: RopeEnd;
-  tail: RopeEnd;
-  coordinatesVisitedByTail: Set<string> = new Set<string>();
+  head: Knot;
 
-  constructor() {
-    this.head = new RopeEnd();
-    this.tail = new RopeEnd();
-    this.coordinatesVisitedByTail.add(this.tail.position.toString());
+  constructor(knots: number) {
+    this.head = new Knot(knots - 1);
+  }
+
+  getTail(): Knot {
+    let knot = this.head;
+    while (knot.next !== undefined) {
+      knot = knot.next;
+    }
+    return knot;
   }
 
   execute(command: string) {
@@ -33,12 +37,6 @@ export class Rope {
         throw new Error(`Received unknown direction: ${inputDirection}`);
     }
 
-    for (let i = 0; i < Number(steps); i++) {
-      this.head.move(direction);
-      if (!this.tail.position.touches(this.head.position)) {
-        this.tail.moveTowards(this.head);
-        this.coordinatesVisitedByTail.add(this.tail.position.toString());
-      }
-    }
+    this.head.executeCommand(direction, Number(steps));
   }
 }

@@ -1,5 +1,5 @@
-import { Coordinate } from "../coordinate";
-import { RopeEnd } from "../rope-end";
+import { Coordinate } from '../coordinate';
+import { Knot } from '../rope-end';
 
 describe('Touching', () => {
   it('Returns true of the coordinates are the equal', () => {
@@ -75,7 +75,7 @@ describe('Touching', () => {
 });
 
 describe('Move', () => {
-  const main = new RopeEnd();
+  const main = new Knot(1);
 
   beforeEach(() => {
     main.position.x = 5;
@@ -105,27 +105,32 @@ describe('Move', () => {
 
 describe('Move towards', () => {
   it('Should move towards the target horisontally to the right', () => {
-    const tail = new RopeEnd(); // starts at (0,0)
-    const head = new RopeEnd(2, 0);
+    const tail = new Knot(1); // starts at (0,0)
+    const head = new Knot(1);
+    head.position.x = 2;
+    head.position.y = 0;
 
-    tail.moveTowards(head);
+    tail.follow(head);
 
     expect(tail.position).toEqual(new Coordinate(1, 0));
   });
 
   it('Should move to the left towards the target', () => {
-    const tail = new RopeEnd();
-    const head = new RopeEnd(-2, 0);
-    tail.moveTowards(head);
+    const tail = new Knot(1);
+    const head = new Knot(1);
+    head.position.x = -2;
+    head.position.y = 0;
+    tail.follow(head);
 
     expect(tail.position).toEqual(new Coordinate(-1, 0));
   });
 
   it('Should move diagonally towards the target', () => {
-    const tail = new RopeEnd();
-    const head = new RopeEnd(1, 2);
-
-    tail.moveTowards(head);
+    const tail = new Knot(1);
+    const head = new Knot(1);
+    head.position.x = 1;
+    head.position.y = 2;
+    tail.follow(head);
 
     expect(tail.position).toEqual(new Coordinate(1, 1));
   });

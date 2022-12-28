@@ -1,14 +1,33 @@
 import { Coordinate } from './coordinate';
 import { Direction } from './types';
 
-export class RopeEnd {
+export class Knot {
   position: Coordinate;
+  next?: Knot;
+  coordinatesVisited: Set<string> = new Set<string>();
 
-  constructor(x: number = 0, y: number = 0) {
-    this.position = new Coordinate(x, y);
+  constructor(moreKnots: number) {
+    this.position = new Coordinate(0, 0);
+    this.coordinatesVisited.add(this.position.toString());
+    if (moreKnots !== 0) {
+      this.next = new Knot(moreKnots - 1);
+    }
   }
 
-  moveTowards(target: RopeEnd) {
+  executeCommand(direction: Direction, steps: number) {
+    for (let i = 0; i < Number(steps); i++) {
+      this.move(direction);
+      if (this.next) {
+        this.next.follow(this);
+      }
+    }
+  }
+
+  follow(target: Knot) {
+    if (this.position.touches(target.position)) {
+      return;
+    }
+
     if (this.position.x === target.position.x) {
       if (this.position.y < target.position.y) {
         this.move('up');
@@ -33,6 +52,11 @@ export class RopeEnd {
       } else if (this.position.y > target.position.y) {
         this.move('down');
       }
+    }
+
+    this.coordinatesVisited.add(this.position.toString());
+    if (this.next) {
+      this.next.follow(this);
     }
   }
 
