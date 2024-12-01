@@ -1,11 +1,11 @@
 export class Monkey {
-  private index: number;
-  private items: number[] = [];
-  private divisibleByNumber: number;
-  private testSuccessReceiver: number;
-  private testFailReceiver: number;
-  private operation: (val: number) => number;
-  private inspectionCount = 0;
+  index: number;
+  items: number[] = [];
+  testDivisor: number;
+  ifTrue: number;
+  ifFalse: number;
+  operation: (val: number) => number;
+  inspectionCount = 0;
 
   constructor(input: string[]) {
     // set index
@@ -33,50 +33,21 @@ export class Monkey {
 
     // extract divisibleNByNumber
     const splitLine = input[3].split(' ');
-    this.divisibleByNumber = Number(splitLine[splitLine.length - 1]);
+    this.testDivisor = Number(splitLine[splitLine.length - 1]);
 
     // extract true and false responses
     const trueResponseLine = input[4].split(' ');
     const falseResponseLine = input[5].split(' ');
 
-    this.testSuccessReceiver = Number(trueResponseLine[trueResponseLine.length - 1]);
-    this.testFailReceiver = Number(falseResponseLine[falseResponseLine.length - 1]);
+    this.ifTrue = Number(trueResponseLine[trueResponseLine.length - 1]);
+    this.ifFalse = Number(falseResponseLine[falseResponseLine.length - 1]);
   }
 
-  getInspectionCount(): number {
-    return this.inspectionCount;
+  clearItems() {
+    this.items.splice(0, this.items.length);
   }
 
-  getItems(): number[] {
-    return this.items;
-  }
-
-  printItems() {
-    console.log(
-      `Monkey ${this.index}${this.items.reduce((prev, curr) => {
-        return `${prev} ${curr}`;
-      }, ':')}`
-    );
-  }
-
-  inspectItems(otherMonkeys: Monkey[]) {
-    this.items.forEach((item) => {
-      const [monkeyToThrowTo, newItem] = this.inspectOneItem(item);
-      otherMonkeys[monkeyToThrowTo].addItem(newItem);
-    });
-    this.items = [];
-  }
-
-  inspectOneItem(item: number): [number, number] {
-    this.inspectionCount++;
-    let worryLevel = this.operation(item);
-    // skip this step for part2
-    worryLevel = Math.floor(worryLevel / 3);
-    const isDivisible = worryLevel % this.divisibleByNumber === 0;
-    return [isDivisible ? this.testSuccessReceiver : this.testFailReceiver, worryLevel];
-  }
-
-  addItem(item: number) {
+  throwTo(item: number) {
     this.items.push(item);
   }
 }

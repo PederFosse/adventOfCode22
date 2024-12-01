@@ -1,4 +1,3 @@
-import { day11 } from './day11/day11';
+import { day12 } from './day12/day12';
 
-const res = day11('dummy.txt', 20);
-console.log(res);
+day12('dummy.txt');

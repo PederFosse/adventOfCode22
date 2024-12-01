@@ -1,12 +1,14 @@
 import { getFileContents } from '../file-utils';
+import { KeepAway } from './KeepAway';
 import { Monkey } from './monkey';
 
-export function day11(fileName: string, rounds: number): number {
+export function day11(fileName: string, part: 1 | 2): number {
   const contents = getFileContents(__dirname, fileName);
 
   const inputLines = contents.split('\n');
   const monkeys: Monkey[] = [];
 
+  // Generate monkeys
   let i = 0;
   while (i < inputLines.length) {
     const input: string[] = [];
@@ -18,13 +20,10 @@ export function day11(fileName: string, rounds: number): number {
     i++;
   }
 
-  for (let round = 0; round < rounds; round++) {
-    monkeys.forEach((monkey) => {
-      monkey.inspectItems(monkeys);
-    });
-  }
+  const game = new KeepAway(part, monkeys);
+  game.play();
 
-  const sortedResults = monkeys.map((m) => m.getInspectionCount()).sort((a, b) => b - a);
+  const sortedResults = monkeys.map((m) => m.inspectionCount).sort((a, b) => b - a);
 
   return sortedResults[0] * sortedResults[1];
 }
